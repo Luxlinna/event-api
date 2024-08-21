@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
+const REACT_BACKEND_URL= 'http://localhost:5001/api';
+
+const backendURL = `${REACT_BACKEND_URL}/events`;
+
 const MainContent = () => {
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState({ 
@@ -24,7 +29,7 @@ const MainContent = () => {
   }, []);
 
   const fetchEvents = async () => {
-    const response = await axios.get('http://localhost:5001/api/events');
+    const response = await axios.get(backendURL);
     setEvents(response.data);
   };
 
@@ -45,13 +50,13 @@ const MainContent = () => {
     if (form.image) formData.append('image', form.image);
 
     if (editMode) {
-      await axios.put(`http://localhost:5001/api/events/${currentEventId}`, formData, {
+      await axios.put(`backendURL/${currentEventId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setEditMode(false);
       setCurrentEventId(null);
     } else {
-      const response = await axios.post('http://localhost:5001/api/events', formData, {
+      const response = await axios.post(backendURL, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setEvents([...events, response.data]);
@@ -61,7 +66,7 @@ const MainContent = () => {
   };
 
   const deleteEvent = async (id) => {
-    await axios.delete(`http://localhost:5001/api/events/${id}`);
+    await axios.delete(`backendURL/${id}`);
     setEvents(events.filter(event => event._id !== id));
   };
 
