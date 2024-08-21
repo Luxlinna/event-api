@@ -24,7 +24,7 @@ const MainContent = () => {
   }, []);
 
   const fetchEvents = async () => {
-    const response = await axios.get('https://eventproject-api.herokuapp.com/api/events');
+    const response = await axios.get('http://localhost:5001/api/events');
     setEvents(response.data);
   };
 
@@ -45,13 +45,13 @@ const MainContent = () => {
     if (form.image) formData.append('image', form.image);
 
     if (editMode) {
-      await axios.put(`https://eventproject-api.herokuapp.com/api/events/${currentEventId}`, formData, {
+      await axios.put(`http://localhost:5001/api/events/${currentEventId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setEditMode(false);
       setCurrentEventId(null);
     } else {
-      const response = await axios.post('https://eventproject-api.herokuapp.com/api/events', formData, {
+      const response = await axios.post('http://localhost:5001/api/events', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setEvents([...events, response.data]);
@@ -61,7 +61,7 @@ const MainContent = () => {
   };
 
   const deleteEvent = async (id) => {
-    await axios.delete(`https://eventproject-api.herokuapp.com/api/events/${id}`);
+    await axios.delete(`http://localhost:5001/api/events/${id}`);
     setEvents(events.filter(event => event._id !== id));
   };
 
